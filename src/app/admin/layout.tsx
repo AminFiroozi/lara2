@@ -42,7 +42,7 @@ export default function AdminLayout({
 	}
 
 	return (
-		<SidebarProvider>
+		<SidebarProvider className="w-full">
 			<div className="flex w-full min-h-screen">
 				<Sidebar side="right">
 					<SidebarHeader>

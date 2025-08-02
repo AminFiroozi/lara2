@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function AdminDashboardPage() {
   return (
-    <div>
+    <div className='w-full'>
       <PageHeader
         title="داشبورد"
         description="به پنل مدیریت ستاره خوش آمدید."
