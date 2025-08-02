@@ -2,17 +2,11 @@ import { Suspense } from 'react';
 import { products, categories } from '@/lib/mock-data';
 import { ProductCard } from '@/components/product-card';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Search } from 'lucide-react';
 import { Pagination as PaginationComponent } from '@/components/shared/pagination';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+import { CategoryCombobox } from '@/components/category-combobox';
 
 export default function ProductsPage({
   searchParams,
@@ -29,8 +23,13 @@ export default function ProductsPage({
   const itemsPerPage = 8;
 
   const filteredProducts = products.filter((product) => {
-    const matchesCategory = categoryId === 'all' || !categoryId ? true : product.categoryId === categoryId;
-    const matchesQuery = product.name.toLowerCase().includes(query.toLowerCase());
+    const matchesCategory =
+      categoryId === 'all' || !categoryId
+        ? true
+        : product.categoryId === categoryId;
+    const matchesQuery = product.name
+      .toLowerCase()
+      .includes(query.toLowerCase());
     return matchesCategory && matchesQuery;
   });
 
@@ -62,33 +61,21 @@ export default function ProductsPage({
                 defaultValue={query}
               />
             </div>
-            <Select defaultValue={categoryId}>
-              <SelectTrigger className="w-full md:w-[200px]">
-                <SelectValue placeholder="همه دسته‌بندی‌ها" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">همه دسته‌بندی‌ها</SelectItem>
-                {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <CategoryCombobox defaultValue={categoryId} />
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-             <Suspense fallback={<div>در حال بارگذاری...</div>}>
-                {paginatedProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
+            <Suspense fallback={<div>در حال بارگذاری...</div>}>
+              {paginatedProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
             </Suspense>
           </div>
-            {paginatedProducts.length === 0 && (
-                <div className="col-span-full text-center py-10">
-                    <p className="text-muted-foreground">محصولی یافت نشد.</p>
-                </div>
-            )}
+          {paginatedProducts.length === 0 && (
+            <div className="col-span-full py-10 text-center">
+              <p className="text-muted-foreground">محصولی یافت نشد.</p>
+            </div>
+          )}
 
           <div className="mt-10 flex justify-center">
             <PaginationComponent totalPages={totalPages} />
