@@ -39,7 +39,7 @@ export default function AdminProductsPage() {
               <TableHead>دسته‌بندی</TableHead>
               <TableHead>قیمت</TableHead>
               <TableHead>موجودی</TableHead>
-              <TableHead>
+              <TableHead className="w-[100px] text-left">
                 <span className="sr-only">عملیات</span>
               </TableHead>
             </TableRow>
@@ -59,7 +59,7 @@ export default function AdminProductsPage() {
                     <Badge variant="outline">ناموجود</Badge>
                   )}
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-left">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" className="h-8 w-8 p-0">

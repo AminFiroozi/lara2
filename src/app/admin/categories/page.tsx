@@ -34,7 +34,7 @@ export default function AdminCategoriesPage() {
           <TableHeader>
             <TableRow>
               <TableHead>نام دسته‌بندی</TableHead>
-              <TableHead>
+              <TableHead className="w-[100px] text-left">
                 <span className="sr-only">عملیات</span>
               </TableHead>
             </TableRow>
