@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { products, categories } from '@/lib/mock-data';
+import { products } from '@/lib/mock-data';
 import { ProductCard } from '@/components/product-card';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
@@ -7,6 +7,7 @@ import { Pagination as PaginationComponent } from '@/components/shared/paginatio
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { CategoryCombobox } from '@/components/category-combobox';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export default function ProductsPage({
   searchParams,
@@ -17,6 +18,7 @@ export default function ProductsPage({
     page?: string;
   };
 }) {
+  noStore();
   const query = searchParams?.q || '';
   const categoryId = searchParams?.category || 'all';
   const currentPage = Number(searchParams?.page) || 1;
@@ -63,14 +65,15 @@ export default function ProductsPage({
             </div>
             <CategoryCombobox defaultValue={categoryId} />
           </div>
+          
+          <Suspense fallback={<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">...در حال بارگذاری</div>}>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {paginatedProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+          </Suspense>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <Suspense fallback={<div>در حال بارگذاری...</div>}>
-              {paginatedProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </Suspense>
-          </div>
           {paginatedProducts.length === 0 && (
             <div className="col-span-full py-10 text-center">
               <p className="text-muted-foreground">محصولی یافت نشد.</p>
