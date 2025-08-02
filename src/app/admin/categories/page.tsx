@@ -52,11 +52,11 @@ export default function AdminCategoriesPage() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
-                        <CategoryDialog category={category}>
-                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                ویرایش
-                            </DropdownMenuItem>
-                       </CategoryDialog>
+                      <CategoryDialog category={category}>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                          ویرایش
+                        </DropdownMenuItem>
+                      </CategoryDialog>
                       <DropdownMenuItem className="text-destructive">
                         حذف
                       </DropdownMenuItem>

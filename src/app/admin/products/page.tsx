@@ -67,7 +67,7 @@ export default function AdminProductsPage() {
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent align="start">
                       <DropdownMenuItem>ویرایش</DropdownMenuItem>
                       <DropdownMenuItem className="text-destructive">
                         حذف
