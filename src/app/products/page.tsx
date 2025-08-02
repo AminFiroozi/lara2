@@ -1,27 +1,32 @@
+
+'use client';
+
 import { Suspense } from 'react';
-import { products } from '@/lib/mock-data';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { products, categories } from '@/lib/mock-data';
 import { ProductCard } from '@/components/product-card';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Search } from 'lucide-react';
 import { Pagination as PaginationComponent } from '@/components/shared/pagination';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { CategoryCombobox } from '@/components/category-combobox';
 import { unstable_noStore as noStore } from 'next/cache';
 
-export default function ProductsPage({
-  searchParams,
-}: {
-  searchParams?: {
-    q?: string;
-    category?: string;
-    page?: string;
-  };
-}) {
+export default function ProductsPage() {
   noStore();
-  const query = searchParams?.q || '';
-  const categoryId = searchParams?.category || 'all';
-  const currentPage = Number(searchParams?.page) || 1;
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q') || '';
+  const categoryId = searchParams.get('category') || 'all';
+  const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = 8;
 
   const filteredProducts = products.filter((product) => {
@@ -40,6 +45,28 @@ export default function ProductsPage({
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const handleSearch = (term: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('q', term);
+    } else {
+      params.delete('q');
+    }
+    params.set('page', '1');
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (value !== 'all') {
+      params.set('category', value);
+    } else {
+      params.delete('category');
+    }
+    params.set('page', '1');
+    router.replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -61,17 +88,39 @@ export default function ProductsPage({
                 placeholder="جستجوی محصول..."
                 className="w-full ps-10"
                 defaultValue={query}
+                onChange={(e) => handleSearch(e.target.value)}
               />
             </div>
-            <CategoryCombobox defaultValue={categoryId} />
-          </div>
-          
-          <Suspense fallback={<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">...در حال بارگذاری</div>}>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {paginatedProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+            <Select
+              defaultValue={categoryId}
+              onValueChange={handleCategoryChange}
+            >
+              <SelectTrigger className="w-full md:w-[200px]">
+                <SelectValue placeholder="انتخاب دسته‌بندی..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">همه دسته‌بندی‌ها</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
                 ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <Suspense
+            fallback={
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                ...در حال بارگذاری
               </div>
+            }
+          >
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {paginatedProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
           </Suspense>
 
           {paginatedProducts.length === 0 && (
