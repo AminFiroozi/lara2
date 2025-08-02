@@ -20,7 +20,7 @@ import { CategoryDialog } from '@/components/admin/category-dialog';
 
 export default function AdminCategoriesPage() {
   return (
-    <div>
+    <div className='w-full'>
       <PageHeader
         title="مدیریت دسته‌بندی‌ها"
         description="دسته‌بندی‌های محصولات خود را مدیریت کنید."
