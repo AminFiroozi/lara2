@@ -8,6 +8,7 @@ import {
 	Shapes,
 	LogOut,
 	ChevronLeft,
+  ArrowRightLeft,
 } from "lucide-react";
 import {
 	SidebarProvider,
@@ -28,6 +29,7 @@ const ADMIN_LINKS = [
 	{ href: "/admin", label: "داشبورد", icon: LayoutDashboard },
 	{ href: "/admin/products", label: "محصولات", icon: Package },
 	{ href: "/admin/categories", label: "دسته‌بندی‌ها", icon: Shapes },
+  { href: "/admin/inventory", label: "موجودی", icon: ArrowRightLeft },
 ];
 
 export default function AdminLayout({
