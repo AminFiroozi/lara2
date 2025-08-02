@@ -24,12 +24,12 @@ export default function ProductsPage({
   };
 }) {
   const query = searchParams?.q || '';
-  const categoryId = searchParams?.category || '';
+  const categoryId = searchParams?.category || 'all';
   const currentPage = Number(searchParams?.page) || 1;
   const itemsPerPage = 8;
 
   const filteredProducts = products.filter((product) => {
-    const matchesCategory = categoryId ? product.categoryId === categoryId : true;
+    const matchesCategory = categoryId === 'all' || !categoryId ? true : product.categoryId === categoryId;
     const matchesQuery = product.name.toLowerCase().includes(query.toLowerCase());
     return matchesCategory && matchesQuery;
   });
@@ -67,7 +67,7 @@ export default function ProductsPage({
                 <SelectValue placeholder="همه دسته‌بندی‌ها" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">همه دسته‌بندی‌ها</SelectItem>
+                <SelectItem value="all">همه دسته‌بندی‌ها</SelectItem>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
                     {category.name}
