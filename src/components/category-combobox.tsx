@@ -64,7 +64,7 @@ export function CategoryCombobox({ defaultValue }: { defaultValue: string }) {
           {value
             ? categoryOptions.find((category) => category.value === value)?.label
             : "انتخاب دسته‌بندی..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -76,12 +76,14 @@ export function CategoryCombobox({ defaultValue }: { defaultValue: string }) {
               {categoryOptions.map((category) => (
                 <CommandItem
                   key={category.value}
-                  value={category.label}
-                  onSelect={() => handleSelect(category.value)}
+                  value={category.value}
+                  onSelect={(currentValue) => {
+                    handleSelect(currentValue === value ? "" : currentValue)
+                  }}
                 >
                   <Check
                     className={cn(
-                      "mr-2 h-4 w-4",
+                      "me-2 h-4 w-4",
                       value === category.value ? "opacity-100" : "opacity-0"
                     )}
                   />
