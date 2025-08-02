@@ -17,6 +17,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ProductDialog } from '@/components/admin/product-dialog';
+import { DeleteProductDialog } from '@/components/admin/delete-product-dialog';
 
 export default function AdminProductsPage() {
   const getCategoryName = (categoryId: string) => {
@@ -29,7 +31,9 @@ export default function AdminProductsPage() {
         title="مدیریت محصولات"
         description="محصولات خود را اضافه، ویرایش یا حذف کنید."
       >
-        <Button>افزودن محصول جدید</Button>
+        <ProductDialog categories={categories}>
+          <Button>افزودن محصول جدید</Button>
+        </ProductDialog>
       </PageHeader>
       <div className="rounded-lg border">
         <Table>
@@ -39,7 +43,7 @@ export default function AdminProductsPage() {
               <TableHead>دسته‌بندی</TableHead>
               <TableHead>قیمت</TableHead>
               <TableHead>موجودی</TableHead>
-              <TableHead className="w-[100px] text-left">
+              <TableHead className="w-[100px] text-right">
                 <span className="sr-only">عملیات</span>
               </TableHead>
             </TableRow>
@@ -59,7 +63,7 @@ export default function AdminProductsPage() {
                     <Badge variant="outline">ناموجود</Badge>
                   )}
                 </TableCell>
-                <TableCell className="text-left">
+                <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" className="h-8 w-8 p-0">
@@ -68,10 +72,19 @@ export default function AdminProductsPage() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
-                      <DropdownMenuItem>ویرایش</DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive">
-                        حذف
-                      </DropdownMenuItem>
+                      <ProductDialog product={product} categories={categories}>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                          ویرایش
+                        </DropdownMenuItem>
+                      </ProductDialog>
+                      <DeleteProductDialog product={product}>
+                        <DropdownMenuItem
+                          onSelect={(e) => e.preventDefault()}
+                          className="text-destructive"
+                        >
+                          حذف
+                        </DropdownMenuItem>
+                      </DeleteProductDialog>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
