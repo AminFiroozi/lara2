@@ -1,8 +1,6 @@
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   Pagination as PaginationContainer,
   PaginationContent,
@@ -13,6 +11,7 @@ import {
   PaginationEllipsis,
 } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
+import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 export function Pagination({ totalPages }: { totalPages: number }) {
   const pathname = usePathname();
