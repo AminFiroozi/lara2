@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -41,14 +42,16 @@ export function CategoryCombobox({ defaultValue }: { defaultValue: string }) {
 
   const handleSelect = (currentValue: string) => {
     const params = new URLSearchParams(searchParams);
-    if (currentValue && currentValue !== "all") {
-      params.set("category", currentValue);
+    const newValue = currentValue === value ? 'all' : currentValue;
+
+    if (newValue !== "all") {
+      params.set("category", newValue);
     } else {
       params.delete("category");
     }
     params.set('page', '1');
     router.replace(`${pathname}?${params.toString()}`);
-    setValue(currentValue)
+    setValue(newValue)
     setOpen(false)
   }
 
@@ -77,9 +80,7 @@ export function CategoryCombobox({ defaultValue }: { defaultValue: string }) {
                 <CommandItem
                   key={category.value}
                   value={category.value}
-                  onSelect={(currentValue) => {
-                    handleSelect(currentValue === value ? "" : currentValue)
-                  }}
+                  onSelect={handleSelect}
                 >
                   <Check
                     className={cn(
