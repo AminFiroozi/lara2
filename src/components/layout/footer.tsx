@@ -10,8 +10,8 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           <Logo />
           <div className="flex gap-2">
-            {SOCIAL_LINKS.map((social) => (
-              <Button key={social.href} variant="ghost" size="icon" asChild>
+            {SOCIAL_LINKS.map((social, index) => (
+              <Button key={`${social.href}-${index}`} variant="ghost" size="icon" asChild>
                 <Link href={social.href}>
                   <social.icon className="h-5 w-5" />
                   <span className="sr-only">{social.href}</span>
