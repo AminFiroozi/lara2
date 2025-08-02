@@ -1,3 +1,4 @@
+"use client"
 import { products, categories } from '@/lib/mock-data';
 import { PageHeader } from '@/components/admin/page-header';
 import { Button } from '@/components/ui/button';
@@ -26,7 +27,7 @@ export default function AdminProductsPage() {
   };
 
   return (
-    <div>
+    <div className=''>
       <PageHeader
         title="مدیریت محصولات"
         description="محصولات خود را اضافه، ویرایش یا حذف کنید."
@@ -71,7 +72,7 @@ export default function AdminProductsPage() {
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
+                    <DropdownMenuContent>
                       <ProductDialog product={product} categories={categories}>
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                           ویرایش
